@@ -11,15 +11,16 @@
     <span class="navbar-toggler-icon icon-bar"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-end">
+      <span class="h4"><strong>Active Project &nbsp;&nbsp;&nbsp;&nbsp;</strong></span>
       <form class="navbar-form">
-        <div class="input-group no-border">
-          <select class="form-control" id="exampleFormControlSelect1">
+        <div class="input-group">
+          <select class="form-control" id="selectProject">
             <option>--Select Project--</option>
             @foreach($projects as $project)
               @if($active_project = $project->id)
-                <option>{{ $project->project }}</option>
+                <option selected="selected" value="{{ $project->id }}">{{ $project->project }}</option>
               @else
-                <option>{{ $project->project }}</option>
+                <option value="{{ $project->id }}">{{ $project->project }}</option>
               @endif
             @endforeach
           </select>

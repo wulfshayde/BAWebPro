@@ -29,6 +29,6 @@ class HomeController extends Controller
       $projects = Project::where('id',$company_id)->get();
       $active_project = $auth_user->selected_project_id;
 
-      return view('dashboard', compact('projects','$active_project'));
+      return view('dashboard', compact('projects','active_project'));
     }
 }
