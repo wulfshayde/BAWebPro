@@ -22,10 +22,12 @@ class CreateItemsTable extends Migration
             $table->text('technical_specification');
             $table->unsignedBigInteger('project_id');
             $table->unsignedBigInteger('priority_id');
+            $table->unsignedBigInteger('status_id');
             $table->timestamps();
 
             $table->foreign('project_id')->references('id')->on('projects');
             $table->foreign('priority_id')->references('id')->on('priorities');
+            $table->foreign('status_id')->references('id')->on('statuses');
         });
     }
 

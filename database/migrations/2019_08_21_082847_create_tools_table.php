@@ -18,10 +18,12 @@ class CreateToolsTable extends Migration
             $table->string('tool');
             $table->string('description');
             $table->text('technical_description')->nullable();
+            $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('tool_type_id');
             $table->timestamps();
 
             $table->foreign('tool_type_id')->references('id')->on('tool_types');
+            $table->foreign('company_id')->references('id')->on('companies');
         });
     }
 

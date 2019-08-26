@@ -3,6 +3,22 @@
   <div class="container-fluid">
     <div class="navbar-wrapper">
       <a class="navbar-brand" href="#">{{ $titlePage }}</a>
+      <form class="navbar-form">
+        <div class="input-group">
+          <select class="form-control h4" id="selectProject">
+            <option>--Select Project--</option>
+            @isset($projects)
+              @foreach($projects as $project)
+                @if($active_project->id = $project->id)
+                  <option selected="selected" value="{{ $project->id }}">{{ $project->project }}</option>
+                @else
+                  <option value="{{ $project->id }}">{{ $project->project }}</option>
+                @endif
+              @endforeach
+            @endisset
+          </select>
+        </div>
+      </form>
     </div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
     <span class="sr-only">Toggle navigation</span>
@@ -11,21 +27,6 @@
     <span class="navbar-toggler-icon icon-bar"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-end">
-      <span class="h4"><strong>Active Project &nbsp;&nbsp;&nbsp;&nbsp;</strong></span>
-      <form class="navbar-form">
-        <div class="input-group">
-          <select class="form-control" id="selectProject">
-            <option>--Select Project--</option>
-            @foreach($projects as $project)
-              @if($active_project = $project->id)
-                <option selected="selected" value="{{ $project->id }}">{{ $project->project }}</option>
-              @else
-                <option value="{{ $project->id }}">{{ $project->project }}</option>
-              @endif
-            @endforeach
-          </select>
-        </div>
-      </form>
       {{-- <form class="navbar-form">
         <div class="input-group no-border">
         <input type="text" value="" class="form-control" placeholder="Search...">

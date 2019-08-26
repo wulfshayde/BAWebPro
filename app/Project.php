@@ -9,12 +9,12 @@ class Project extends Model
 {
     public function company()
     {
-      $this->belongsTo('App\Company');
+      return $this->belongsTo('App\Company');
     }
 
     public function items()
     {
-      $this->hasMany('App\Item');
+      return $this->hasMany('App\Item');
     }
 
     public function getFormattedCompletionDateAttribute()

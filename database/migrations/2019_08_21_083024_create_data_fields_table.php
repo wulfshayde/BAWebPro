@@ -15,7 +15,13 @@ class CreateDataFieldsTable extends Migration
     {
         Schema::create('data_fields', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('field');
+            $table->string('type');
+            $table->string('description');
+            $table->unsignedBigInteger('data_id');
             $table->timestamps();
+
+            $table->foreign('data_id')->references('id')->on('data');
         });
     }
 
