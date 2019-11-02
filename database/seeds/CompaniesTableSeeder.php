@@ -23,5 +23,6 @@ class CompaniesTableSeeder extends Seeder
           'added_on' => Carbon\Carbon::now(),
           'active' => true
         ]);
+
     }
 }

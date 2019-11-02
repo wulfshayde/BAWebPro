@@ -18,6 +18,7 @@ class CreateStatusesTable extends Migration
             $table->string('status');
             $table->string('description');
             $table->integer('value');
+            $table->string('colour');
             $table->timestamps();
         });
     }

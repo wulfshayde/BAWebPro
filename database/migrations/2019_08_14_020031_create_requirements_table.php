@@ -18,12 +18,12 @@ class CreateRequirementsTable extends Migration
             $table->string('tag');
             $table->string('requirement');
             $table->unsignedBigInteger('requirement_type_id');
-            $table->unsignedBigInteger('item_id');
+            $table->unsignedBigInteger('project_id');
             $table->unsignedBigInteger('priority_id');
             $table->timestamps();
 
             $table->foreign('requirement_type_id')->references('id')->on('requirement_types');
-            $table->foreign('item_id')->references('id')->on('items');
+            $table->foreign('project_id')->references('id')->on('projects');
             $table->foreign('priority_id')->references('id')->on('priorities');
         });
     }

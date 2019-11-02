@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +24,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        \Debugbar::disable();
+        view()->composer('*', function($views){
+            if(Auth::user())
+            {
+                $views->with('active_project', Auth::user()->getProject());
+            }
+        });
+        view()->composer('layouts.navbars.navs.auth', function($view){
+            $view->with('company_projects', Auth::user()->userCompany()->projects);
+        });
     }
 }

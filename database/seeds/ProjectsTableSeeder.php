@@ -20,5 +20,6 @@ class ProjectsTableSeeder extends Seeder
           'estimated_completion_on' => Carbon\Carbon::now()->addYears(3),
           'company_id' => 1
         ]);
+
     }
 }

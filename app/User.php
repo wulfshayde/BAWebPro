@@ -39,7 +39,52 @@ class User extends Authenticatable
     ];
 
     public function user_role(){
-      return $this->belongsTo('App\UserRole');
+      return $this->belongsTo(UserRole::class);
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class,'selected_project_id');
+    }
+
+    public function getProject()
+    {
+        if(is_null($this->project))
+        {
+            $company = $this->user_role->user_group->company;
+            $project = Project::getCompanyDefaultProject($company);
+            $this->project()->associate($project);
+            $this->save();
+        }
+        return $this->project;
+    }
+
+    public function userCompany()
+    {
+        return $this->user_role->user_group->company;
+    }
+
+    public function activateProject(Project $project)
+    {
+        $this->project()->associate($project);
+        $this->save();
+        //dd($this->project());
+        return $project;
+    }
+
+    public function selectedProject()
+    {
+        $project = null;
+        $selected_project_id = $this->selected_project_id;
+        if (is_null($selected_project_id))
+        {
+            $project = Project::getDefaultProject($this->company_id);
+            $this->project()->associate($project);
+            $this->save();
+        } else {
+            $project = Project::find($selected_project_id);
+        }
+        return $project;
     }
 
 }

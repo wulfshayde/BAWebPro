@@ -41,12 +41,24 @@
           </ul>
         </div>
       </li> --}}
+        <li class="nav-item{{ $activePage == 'project' ? ' active' : '' }}">
+            <a class="nav-link" href="{{ route('project', $active_project) }}">
+                <i class="material-icons">work</i>
+                <p>{{ __('Project') }}</p>
+            </a>
+        </li>
       <li class="nav-item{{ $activePage == 'table' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('table') }}">
+        <a class="nav-link" href="{{ route('project.items', $active_project) }}">
           <i class="material-icons">list</i>
             <p>{{ __('Items') }}</p>
         </a>
       </li>
+        <li class="nav-item{{ $activePage == 'table' ? ' active' : '' }}">
+            <a class="nav-link" href="{{ route('project.tools', $active_project) }}">
+                <i class="material-icons">build</i>
+                <p>{{ __('Tools') }}</p>
+            </a>
+        </li>
       {{-- <li class="nav-item{{ $activePage == 'typography' ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('typography') }}">
           <i class="material-icons">library_books</i>

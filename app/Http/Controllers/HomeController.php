@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Project;
+use App\User;
 
 class HomeController extends Controller
 {
@@ -24,11 +25,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-      $auth_user = Auth::user();
-      $company_id = $auth_user->user_role->user_group->company_id;
-      $projects = Project::where('id',$company_id)->get();
-      $active_project = Project::find($auth_user->selected_project_id);
-
-      return view('dashboard', compact('projects','active_project'));
+//        $user = Auth::user();
+//        $active_project = $user->getProject();
+        return view('dashboard');
     }
 }

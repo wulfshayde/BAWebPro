@@ -17,6 +17,7 @@ class CreatePrioritiesTable extends Migration
             $table->bigIncrements('id');
             $table->string('priority')->unique();
             $table->smallInteger('value');
+            $table->string('colour');
             $table->unsignedBigInteger('company_id');
             $table->timestamps();
 

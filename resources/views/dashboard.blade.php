@@ -1,5 +1,7 @@
 @extends('layouts.app', ['activePage' => 'dashboard', 'titlePage' => __('Dashboard')])
 
+@inject("charts","App\Http\Controllers\ChartsController");
+
 @section('content')
   <div class="content">
     <div class="container-fluid">
@@ -11,29 +13,12 @@
                 <i class="material-icons">list</i>
               </div>
               <p class="card-category">Item Completion</p>
-              <h3 class="card-title">{{ $active_project->items->where('item.status.status', 'Complete')->count() }}/{{ $active_project->items->count() }}
-                {{-- <small>%</small> --}}
+              <h3 class="card-title">{{ $active_project->GetItemStatusCount(['Complete','Cancelled']) }}/{{ $active_project->items->count() }}
               </h3>
             </div>
             <div class="card-footer">
               <div class="stats">
-                <a href="#">See Items...</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-6">
-          <div class="card card-stats">
-            <div class="card-header card-header-success card-header-icon">
-              <div class="card-icon">
-                <i class="material-icons">assessment</i>
-              </div>
-              <p class="card-category">Tools Used</p>
-              <h3 class="card-title">16/40</h3>
-            </div>
-            <div class="card-footer">
-              <div class="stats">
-                <a href="#">See Applications/Tools</a>
+                <a href="/project/{{ $active_project->id }}/items">View Items</a>
               </div>
             </div>
           </div>
@@ -42,14 +27,14 @@
           <div class="card card-stats">
             <div class="card-header card-header-danger card-header-icon">
               <div class="card-icon">
-                <i class="material-icons">info_outline</i>
+                <i class="material-icons">feedback</i>
               </div>
-              <p class="card-category">Fixed Issues</p>
-              <h3 class="card-title">75</h3>
+              <p class="card-category">Requirements</p>
+              <h3 class="card-title">{{ $active_project->requirementCount() }}</h3>
             </div>
             <div class="card-footer">
               <div class="stats">
-                <i class="material-icons">local_offer</i> Tracked from Github
+                <i class="material-icons">help_outline</i> Total for Project
               </div>
             </div>
           </div>
@@ -58,52 +43,55 @@
           <div class="card card-stats">
             <div class="card-header card-header-info card-header-icon">
               <div class="card-icon">
-                <i class="fa fa-twitter"></i>
+                  <i class="material-icons">feedback</i>
               </div>
-              <p class="card-category">Followers</p>
-              <h3 class="card-title">+245</h3>
+              <p class="card-category">User Stories</p>
+              <h3 class="card-title">{{ $active_project->itemStoryCount() }}</h3>
             </div>
             <div class="card-footer">
               <div class="stats">
-                <i class="material-icons">update</i> Just Updated
+                  <i class="material-icons">help_outline</i> Total from all items
               </div>
             </div>
           </div>
         </div>
+          <div class="col-lg-3 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                  <div class="card-header card-header-success card-header-icon">
+                      <div class="card-icon">
+                          <i class="material-icons">build</i>
+                      </div>
+                      <p class="card-category">Implementation</p>
+                      <h3 class="card-title">{{ $active_project->useCaseCount() }}</h3>
+                  </div>
+                  <div class="card-footer">
+                      <div class="stats">
+                          <a href="#">View Tools</a>
+                      </div>
+                  </div>
+              </div>
+          </div>
       </div>
       <div class="row">
         <div class="col-md-4">
-          <div class="card card-chart">
-            <div class="card-header card-header-success">
-              <div class="ct-chart" id="dailySalesChart"></div>
-            </div>
-            <div class="card-body">
-              <h4 class="card-title">Daily Sales</h4>
-              <p class="card-category">
-                <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today sales.</p>
-            </div>
-            <div class="card-footer">
-              <div class="stats">
-                <i class="material-icons">access_time</i> updated 4 minutes ago
-              </div>
-            </div>
-          </div>
+            {!! $charts->GetPriorities($active_project, "bar") !!}
         </div>
         <div class="col-md-4">
-          <div class="card card-chart">
-            <div class="card-header card-header-warning">
-              <div class="ct-chart" id="websiteViewsChart"></div>
-            </div>
-            <div class="card-body">
-              <h4 class="card-title">Email Subscriptions</h4>
-              <p class="card-category">Last Campaign Performance</p>
-            </div>
-            <div class="card-footer">
-              <div class="stats">
-                <i class="material-icons">access_time</i> campaign sent 2 days ago
-              </div>
-            </div>
-          </div>
+            {!! $charts->GetItemStatus($active_project, "pie") !!}
+          {{--<div class="card card-chart">--}}
+            {{--<div class="card-header card-header-warning">--}}
+              {{--<div class="ct-chart" id="websiteViewsChart"></div>--}}
+            {{--</div>--}}
+            {{--<div class="card-body">--}}
+              {{--<h4 class="card-title">Email Subscriptions</h4>--}}
+              {{--<p class="card-category">Last Campaign Performance</p>--}}
+            {{--</div>--}}
+            {{--<div class="card-footer">--}}
+              {{--<div class="stats">--}}
+                {{--<i class="material-icons">access_time</i> campaign sent 2 days ago--}}
+              {{--</div>--}}
+            {{--</div>--}}
+          {{--</div>--}}
         </div>
         <div class="col-md-4">
           <div class="card card-chart">
@@ -416,12 +404,3 @@
     </div>
   </div>
 @endsection
-
-@push('js')
-  <script>
-    $(document).ready(function() {
-      // Javascript method's body can be found in assets/js/demos.js
-      md.initDashboardPageCharts();
-    });
-  </script>
-@endpush

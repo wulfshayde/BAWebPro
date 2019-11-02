@@ -17,42 +17,28 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::prefix('project')->group(function () {
-    Route::get('view/{id}', 'ProjectController@view')->name('project');
-});
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
-
 Route::group(['middleware' => 'auth'], function () {
-	Route::get('table-list', function () {
-		return view('pages.table_list');
-	})->name('table');
 
-	Route::get('typography', function () {
-		return view('pages.typography');
-	})->name('typography');
+    Route::get('/home', 'HomeController@index')->name('home');
 
-	Route::get('icons', function () {
-		return view('pages.icons');
-	})->name('icons');
+    Route::prefix('project')->group(function () {
+        Route::get('{project}', 'ProjectController@view')->name('project');
+        Route::get('{project}/activate', 'ProjectController@activate')->name('project.activate');
+        Route::get('{project}/items', 'ProjectController@items')->name('project.items');
+        Route::get('{project}/tools', 'ProjectController@tools')->name('project.tools');
+    });
 
-	Route::get('map', function () {
-		return view('pages.map');
-	})->name('map');
+    Route::prefix('items')->group(function(){
+        Route::get('/', 'ItemController@index')->name('items');
+    });
 
-	Route::get('notifications', function () {
-		return view('pages.notifications');
-	})->name('notifications');
+    Route::prefix('tools')->group(function(){
+        Route::get('/', 'ToolController@index')->name('tools');
+    });
 
-	Route::get('rtl-support', function () {
-		return view('pages.language');
-	})->name('language');
-
-	Route::get('upgrade', function () {
-		return view('pages.upgrade');
-	})->name('upgrade');
+//	Route::get('notifications', function () {
+//		return view('pages.notifications');
+//	})->name('notifications');
 });
 
 Route::group(['middleware' => 'auth'], function () {

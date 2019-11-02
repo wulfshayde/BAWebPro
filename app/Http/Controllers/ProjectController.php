@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\Project\ProjectRepositoryInterface;
+use App\Project;
 use App\Company;
+use Auth;
 
 use Illuminate\Http\Request;
 
@@ -12,7 +13,7 @@ class ProjectController extends Controller
 
   protected $project;
 
-  public function __construct(ProjectRepositoryInterface $project)
+  public function __construct(Project $project)
   {
     $this->project = $project;
   }
@@ -30,10 +31,26 @@ class ProjectController extends Controller
 
   }
 
+    public function GetUseCaseMatrix(Project $project)
+    {
+        $requirements = collect([]);
+
+        foreach($project->items as $item)
+        {
+            $requirements->push($item->requirements);
+        }
+    }
+
   public function view($id)
   {
-    $project = $this->project->find($id);
+    $active_project = $this->project->find($id);
     //printf($project);
-    return view('project.view',compact('project'));
+    return view('project.view',compact('active_project'));
   }
+
+    public function activate(Project $project)
+    {
+        Auth::user()->activateProject($project);
+        return back();
+    }
 }
